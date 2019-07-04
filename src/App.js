@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import MyForm from './MyForm';
+import 'antd/dist/antd.css';
+import { Layout, Row, Col } from 'antd';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    const { Header, Footer, Sider, Content } = Layout;
+    return (
+      <Layout>
+        <Header style={{ backgroundColor: '#f0f2f5', textAlign: 'center' }}>
+          HEADER
+        </Header>
+        <Layout>
+          <Sider width={150} style={{ backgroundColor: 'lightgrey' }}>
+            <Row type="flex" align="middle" style={{ height: '100%' }}>
+              <Col span={12} offset={6}>
+                LEFT SIDE MENU
+              </Col>
+            </Row>
+          </Sider>
+          <Content>
+            <MyForm />
+          </Content>
+        </Layout>
+        <Footer style={{ textAlign: 'center' }}>FOOTER</Footer>
+      </Layout>
+    );
+  }
 }
 
 export default App;
