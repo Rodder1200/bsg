@@ -19,7 +19,7 @@ class App extends Component {
               </Col>
             </Row>
           </Sider>
-          <Content>
+          <Content style={{backgroundColor: 'white'}}>
             <MyForm />
           </Content>
         </Layout>

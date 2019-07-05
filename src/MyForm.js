@@ -1,60 +1,86 @@
 import React, { Component } from 'react';
-import { Icon, List, Row, Col } from 'antd';
+import { List, Drawer, Layout, Row, Col } from 'antd';
+import Field from './Field';
+import NameEmailPhoneDrawer from './NameEmailPhoneDrawer';
 
 class MyForm extends Component {
+  state = { 
+    visible: false, 
+    first_name: 'Ivan', 
+    last_name: 'Kaban',
+    email: 'test@mail.com',
+    phone: '+315848456456',
+    fields: [
+      'Имя, телефон, email',
+      'Страна, часовой пояс, язык',
+      'Пароль и безопасность',
+      'Валюта',
+      'Social login',
+      'Удалить аккаунт',
+    ],
+    drawField: '',
+  };
+
+  showDrawer = index => () => {
+    this.setState(prevState => ({
+      visible: !prevState.visible,
+      drawField: index,
+    }));
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleChange = ({ target: {name, value} }) => {
+    this.setState({
+      [name]: value,
+    });
+  };
+
   render() {
-    const { Item } = List;
+    const { first_name, last_name, email, phone, fields, drawField } = this.state;
+    const { Header } = Layout;
     return (
-      <List style={{ backgroundColor: 'white' }} bordered={true}>
-        <Item>
-          <Row type="flex">
-            <Col>Имя, телефон, email</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
-        <Item>
-          <Row type="flex">
-            <Col>Страна, часовой пояс, язык</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
-        <Item>
-          <Row type="flex">
-            <Col>Пароль и безопасность</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
-        <Item>
-          <Row type="flex">
-            <Col>Валюта</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
-        <Item>
-          <Row type="flex">
-            <Col>Social login</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
-        <Item>
-          <Row type="flex">
-            <Col>Удалить аккаунт</Col>
-            <Col>
-              <Icon type="right" />
-            </Col>
-          </Row>
-        </Item>
+      <div style={{ margin: '100px' }}>
+      <Header style={{ backgroundColor: '#999', textAlign: 'center'}}>
+        <Row type="flex" justify="space-between" style={{ width: '100%' }}>
+          <Col>
+            <p>{first_name} {last_name}</p>
+            <p>{email}</p>
+          </Col>
+          <Col>
+            <p>ID 28366</p>
+            <p>Демо режим</p>
+          </Col>
+        </Row>
+      </Header>
+      <List style={{ backgroundColor: 'white' }} bordered={true} itemLayout='vertical'>
+      {fields.map((item, index) => (
+        <Field key={`${item}${index}`} toggleDrawer={this.showDrawer(index)} field_title={item}/>
+      ))}
       </List>
+        {drawField === 0 && (
+          <Drawer
+              closable={true}
+              onClose={this.onClose}
+              visible={this.state.visible}
+              mask={false}
+              width={600}
+            >
+              <NameEmailPhoneDrawer
+                field_title={fields[0]}
+                first_name={first_name}
+                last_name={last_name}
+                email={email}
+                phone={phone}
+                handleChange={this.handleChange}
+              />
+          </Drawer>
+        )}
+      </div>
     );
   }
 }
